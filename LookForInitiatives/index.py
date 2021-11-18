@@ -51,70 +51,71 @@ if __name__ == "__main__":
     chrome_driver = webdriver.Chrome(
         executable_path=ChromeDriverManager().install(), options=chromeOptions)
     try:
-        # deleteTemporals(files_route)
-        # chrome_driver.get(config["URL_EFICACIA"])
+        deleteTemporals(files_route)
+        chrome_driver.get(config["URL_EFICACIA"])
 
-        # waitElement(chrome_driver, "//input[@id='username']", By.XPATH, True)
-        # login(chrome_driver)
+        waitElement(chrome_driver, "//input[@id='username']", By.XPATH, True)
+        login(chrome_driver)
 
-        # if elementIsVisible(chrome_driver, "//div[@class='error login_error' and contains(text(), 'YA TIENE SESION ACTIVA')]", By.XPATH):
-        #     close_sessions_element = chrome_driver.find_element_by_xpath(
-        #         "//input[@type='checkbox'][@name='cerrar_sesiones_anteriores']")
-        #     chrome_driver.execute_script(
-        #         "arguments[0].setAttribute('checked',arguments[1])", close_sessions_element, True)
-        #     login(chrome_driver)
+        if elementIsVisible(chrome_driver, "//div[@class='error login_error' and contains(text(), 'YA TIENE SESION ACTIVA')]", By.XPATH):
+            close_sessions_element = chrome_driver.find_element_by_xpath(
+                "//input[@type='checkbox'][@name='cerrar_sesiones_anteriores']")
+            chrome_driver.execute_script(
+                "arguments[0].setAttribute('checked',arguments[1])", close_sessions_element, True)
+            login(chrome_driver)
 
-        # # Esperar el Home
-        # waitElement(
-        #     chrome_driver,
-        #     "//div[@id='Layer1']",
-        #     By.XPATH)
+        # Esperar el Home
+        waitElement(
+            chrome_driver,
+            "//div[@id='Layer1']",
+            By.XPATH)
 
-        # # Buscar Ficha tecnica
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "ficha")
+        # Buscar Ficha tecnica
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "ficha")
 
-        # #buscar en el frame central
-        # chrome_driver.switch_to.default_content()
-        # chrome_driver.switch_to.frame("central")
+        #buscar en el frame central
+        chrome_driver.switch_to.default_content()
+        chrome_driver.switch_to.frame("central")
 
-        # waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
-        # chrome_driver.find_element_by_xpath("//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
+        waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
+        chrome_driver.find_element_by_xpath("//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
 
-        # # consultar los articulos
-        # waitElement(chrome_driver,
-        #             "//table/b[contains='*Son Campos Obligatorios']")
-        # chrome_driver.find_element_by_xpath("//table//input[@type='submit']").click()
+        # consultar los articulos
+        waitElement(chrome_driver,
+                    "//table/b[contains='*Son Campos Obligatorios']")
+        chrome_driver.find_element_by_xpath("//table//input[@type='submit']").click()
 
-        # #descargar el archivo
-        # waitElementDisable(
-        #     chrome_driver, "//table//input[@type='submit']", By.XPATH)
-        # chrome_driver.find_element_by_xpath(
-        #     "//a/small[contains(text(),'Archivo XLS')]").click()
-        # time.sleep(1)
-        # waitDownload(files_route)
+        #descargar el archivo
+        waitElementDisable(
+            chrome_driver, "//table//input[@type='submit']", By.XPATH)
+        chrome_driver.find_element_by_xpath(
+            "//a/small[contains(text(),'Archivo XLS')]").click()
+        time.sleep(1)
+        waitDownload(files_route)
 
-        most_recent_file = getMostRecentFile(files_route, lambda x: [v for v in x if "xls" in v.lower()])
-        path_init = '\\'.join(most_recent_file.split('\\')[:-1])
-        path_end = '\\' + "[" + most_recent_file.split('\\')[-1] + "]" #necesario para las formulas de excel
-        most_recent_file = fr"{path_init}{path_end}" 
+        # most_recent_file = getMostRecentFile(files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        # path_init = '\\'.join(most_recent_file.split('\\')[:-1])
+        # path_end = '\\' + "[" + most_recent_file.split('\\')[-1] + "]" #necesario para las formulas de excel
+        # most_recent_file = fr"{path_init}{path_end}" 
 
-        book_checklist = None
-        parent_folder = os.getcwd()
-        for fname in os.listdir(parent_folder):
-            if "xlsm" in fname and "~" not in fname:
-                excel_app = xw.App(visible=True)
-                book_checklist = excel_app.books.open(os.path.join(parent_folder, fname))
-                break
+        # book_checklist = None
+        # parent_folder = os.getcwd()
+        # for fname in os.listdir(parent_folder):
+        #     if "xlsm" in fname and "~" not in fname:
+        #         book_checklist = xw.Book(os.path.join(parent_folder, fname))
+        #         break
 
-        if book_checklist is None:
-            raise Exception("Book with macro not found or open")
+        # if book_checklist is None:
+        #     raise Exception("Book with macro not found or open")
 
-        #ejecutar macro eliminar iniciativas completas
-        book_checklist.macro('EliminarIniciativasCompletas')()
+        # #ejecutar macro eliminar iniciativas completas
+        # # book_checklist.macro('EliminarIniciativasCompletas')()
 
-        #ejecutar macro para actualizar iniciativas
-        book_checklist.macro('ActualizarIniciativas')(most_recent_file)
+        # #ejecutar macro para actualizar iniciativas
+        # book_checklist.macro('Módulo1.ActualizarIniciativas')(most_recent_file)
+        # book_checklist.save()
+        # book_checklist.close()
 
     except Exception as e:
         exception(e)
