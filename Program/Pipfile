@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+python-dotenv = "*"
+webdriver-manager = "*"
+selenium = "*"
+xlwings = "*"
+
+[scripts]
+build = "pyinstaller --clean --onefile  index.py"
+
+[dev-packages]
+pyinstaller = "*"
+
+[requires]
+python_version = "3.8"

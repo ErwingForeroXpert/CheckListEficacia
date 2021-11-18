@@ -1,0 +1,37 @@
+Fases del proceso
+
+1. Actualizacion de la base de datos
+1.1 Consolidar las iniciativas con 100% de ingresos
+1.2 Eliminar dichos registros de la base de datos
+1.3 Eliminar la hoja de dichos registros
+
+2. Buscar iniciativas nuevas
+2.1 Descargar el archivo de eficacia
+2.2 BuscarV de las caracteristicas faltantes de la base de datos en la ficha tecnica (ej. largo, ancho, alto)
+2.3 Actualizar la General
+2.4 Añadir la nueva Informacion de las dinamicas por hoja (reporte) (Ahora debe ser solo una hoja)
+
+3. Actualizar base ingresos
+3.1 Descargar detalles documentos (Tipo documento (serie recepcion) y fecha inicial - final) exportar excel (boton izquierdo superior)
+3.1.1 Filtar Documento Estado = Parcial,  bodega = recepcion, validar "documento1" correcto nombre y elimina contengan valor "generico"
+3.1.2 Pasar la informacion a la hoja ingresos
+3.1.3 Actualizar Tabla dinamica ingresos
+3.1.4 Revisar total de hoja ingresos y la tabla dinamica ingresos
+3.2 Descargar detalles saldos 
+3.2.1 validar "documento1" correcto nombre y elimina contengan valor "generico"
+3.2.2 Pasar la informacion a la hoja inventario
+3.2.3 Actualizar Tabla dinamica inventario
+3.2.4 Revisar total de hoja inventario y la tabla dinamica inventario
+
+4 Revisar la base de datos
+4.1 Dia info asignar la fecha de hoy
+4.2 buscarv de ingresado (ingresado, saldo) buscar por (buscador , tabla dia ingresos) 
+4.3 Corregir manualmente los ACT que tienen ingresos vacios
+4.3.1 buscar en eficacia kardex (*Punto y Articulo)
+
+
+Generalidades
+
+Generar validaciones para evitar problemas en la base de datos de drive
+
+
