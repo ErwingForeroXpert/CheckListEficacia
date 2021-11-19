@@ -114,7 +114,7 @@ if __name__ == "__main__":
             raise Exception("Book with macro not found or open")
 
         # ejecutar macro eliminar iniciativas completas
-        # book_checklist.macro('EliminarIniciativasCompletas')()
+        book_checklist.macro('EliminarIniciativasCompletas')()
 
         # ejecutar macro para actualizar iniciativas
         book_checklist.macro('Módulo1.ActualizarIniciativas')(most_recent_file)
@@ -122,7 +122,6 @@ if __name__ == "__main__":
         book_checklist.close()
 
         print("\n Proceso Terminado, ya puede cerrar la ventana \n")
-        
+
     except Exception as e:
         exception(e)
-        chrome_driver.close()
