@@ -114,7 +114,7 @@ if __name__ == "__main__":
             raise Exception("Book with macro not found or open")
 
         # ejecutar macro eliminar iniciativas completas
-        book_checklist.macro('EliminarIniciativasCompletas')()
+        book_checklist.macro('Módulo1.EliminarIniciativasCompletas')()
 
         # ejecutar macro para actualizar iniciativas
         book_checklist.macro('Módulo1.ActualizarIniciativas')(most_recent_file)
