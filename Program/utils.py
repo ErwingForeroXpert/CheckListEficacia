@@ -8,7 +8,7 @@ import glob
 
 def waitElement(driver, element, by=By.ID, exist=False):
     return WebDriverWait(driver, 30).until(
-        lambda driver: driver.find_elements(by,element) if exist else EC.visibility_of_element_located((by, element))
+        lambda driver: driver.find_element(by,element) if exist else EC.visibility_of_element_located((by, element))
     )
 
 
