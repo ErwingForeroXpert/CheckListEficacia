@@ -36,7 +36,6 @@ def search(driver, text):
         "//div[@id='submitSearch']/input[@type='image']")
     search_btn_element.click()
 
-
 def login(driver):
     user_element = driver.find_element_by_xpath("//input[@id='username']")
     user_element.send_keys(config["USER"])
@@ -45,6 +44,29 @@ def login(driver):
     pass_element.send_keys(config["PASSWORD"])
     pass_element.send_keys(Keys.ENTER)
 
+def runMacro(nameMacro, _args=None):
+    # ejecutar macro
+    result = None
+    parent_folder = os.path.join(os.getcwd(), "Files")
+    _book = None
+    for fname in os.listdir(parent_folder):
+        if "xlsm" in fname and "~" not in fname:
+            _book = xw.Book(os.path.join(parent_folder, fname))
+            break
+
+    if _book is None:
+        raise Exception(f"en la ruta {parent_folder}, el libro no se encuentra o no se puede abrir")
+    
+    result = _book.macro(nameMacro)(*_args) if _args is not None else _book.macro(nameMacro)()
+    
+    _book.save()
+
+    if len(_book.app.books) == 1:
+        _book.app.quit()
+    else:
+        _book.close()
+
+    return result
 
 if __name__ == "__main__":
     chrome_driver = webdriver.Chrome(
@@ -94,32 +116,34 @@ if __name__ == "__main__":
             "//a/small[contains(text(),'Archivo XLS')]").click()
         time.sleep(1)
         waitDownload(files_route)
+
+        Initiatives_file = getMostRecentFile(
+            files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        
+        # Buscar Detalles documentos
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "Detalles Documentos")
+
+        # buscar en el frame central
+        chrome_driver.switch_to.default_content()
+        chrome_driver.switch_to.frame("central")
+
+        waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
+        chrome_driver.find_element_by_xpath(
+            "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
+            
         chrome_driver.close()
 
-        most_recent_file = getMostRecentFile(
-            files_route, lambda x: [v for v in x if "xls" in v.lower()])
-        path_init = '\\'.join(most_recent_file.split('\\')[:-1])
+        path_init = '\\'.join(Initiatives_file.split('\\')[:-1])
         # necesario para las formulas de excel
-        path_end = '\\' + "[" + most_recent_file.split('\\')[-1] + "]"
-        most_recent_file = fr"{path_init}{path_end}"
-
-        book_checklist = None
-        parent_folder = os.path.join(os.getcwd(), "Files")
-        for fname in os.listdir(parent_folder):
-            if "xlsm" in fname and "~" not in fname:
-                book_checklist = xw.Book(os.path.join(parent_folder, fname))
-                break
-
-        if book_checklist is None:
-            raise Exception("Book with macro not found or open")
+        path_end = '\\' + "[" + Initiatives_file.split('\\')[-1] + "]"
+        Initiatives_file = fr"{path_init}{path_end}"
 
         # ejecutar macro eliminar iniciativas completas
-        book_checklist.macro('Módulo1.EliminarIniciativasCompletas')()
-
+        runMacro('Módulo1.EliminarIniciativasCompletas')
         # ejecutar macro para actualizar iniciativas
-        book_checklist.macro('Módulo1.ActualizarIniciativas')(most_recent_file)
-        book_checklist.save()
-        book_checklist.close()
+        runMacro('Módulo1.ActualizarIniciativas', [Initiatives_file])
+
 
         print("\n Proceso Terminado, ya puede cerrar la ventana \n")
 

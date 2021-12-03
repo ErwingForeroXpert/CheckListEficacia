@@ -34,7 +34,7 @@ def waitDownload(path):
         time.sleep(1)
         for fname in os.listdir(path):
             if "crdownload" in fname or "tmp" in fname:
-                tempfiles = 0
+                tempfiles = 0  
                 break
             else:
                 tempfiles = 1
