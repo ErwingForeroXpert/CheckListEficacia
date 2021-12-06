@@ -75,6 +75,13 @@ if __name__ == "__main__":
         deleteTemporals(files_route)
         chrome_driver.get(config["URL_EFICACIA"])
 
+        #Esperar Login
+        waitElement(
+            chrome_driver,
+            "//frame[@name='mainFrame']",
+            By.XPATH)
+        chrome_driver.switch_to.frame("mainFrame")
+ 
         waitElement(chrome_driver, "//input[@id='username']", By.XPATH, True)
         login(chrome_driver)
 
@@ -92,11 +99,21 @@ if __name__ == "__main__":
             By.XPATH)
 
         # Buscar Ficha tecnica
+        waitElement(
+            chrome_driver,
+            "//frame[@name='izquierda']",
+            By.XPATH)
         chrome_driver.switch_to.frame("izquierda")
         search(chrome_driver, "ficha")
 
-        # buscar en el frame central
         chrome_driver.switch_to.default_content()
+        chrome_driver.switch_to.frame("mainFrame")
+
+        # buscar en el frame central
+        waitElement(
+            chrome_driver,
+            "//frame[@name='central']",
+            By.XPATH)
         chrome_driver.switch_to.frame("central")
 
         waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
@@ -119,19 +136,21 @@ if __name__ == "__main__":
 
         Initiatives_file = getMostRecentFile(
             files_route, lambda x: [v for v in x if "xls" in v.lower()])
-        
+
         # Buscar Detalles documentos
+        chrome_driver.switch_to.default_content()
         chrome_driver.switch_to.frame("izquierda")
         search(chrome_driver, "Detalles Documentos")
 
         # buscar en el frame central
         chrome_driver.switch_to.default_content()
+        chrome_driver.switch_to.frame("mainFrame")
         chrome_driver.switch_to.frame("central")
 
         waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
         chrome_driver.find_element_by_xpath(
-            "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
-            
+            "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2']//a[contains(text(), 'Detalles_Documentos')]").click()
+
         chrome_driver.close()
 
         path_init = '\\'.join(Initiatives_file.split('\\')[:-1])
