@@ -1,7 +1,10 @@
+import datetime
 from logging import warning
+import logging
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 import time
 import os
 import glob
@@ -51,3 +54,27 @@ def getMostRecentFile(path, _filter=None):
     list_of_files = glob.glob(fr'{path}/*')
     list_of_files = _filter(list_of_files) if _filter is not None else list_of_files
     return max(list_of_files, key=os.path.getctime)
+
+def foundInErrorMessages(message):
+    return message in [
+        "2001: NO EXISTEN REGISTROS EN LA CONSULTA"
+    ]
+
+def clickAlert(driver):
+    try:
+        WebDriverWait(driver, 5).until (EC.alert_is_present())
+        alert = driver.switch_to.alert
+        alert.accept()
+    except TimeoutException:
+        insertInLog("alert does not Exist in page", "info")
+        
+def insertInLog(message, type="debug"):
+    logging.basicConfig(filename='checklisteficacia.log', encoding='utf-8', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+    loger = {
+        "debug": logging.debug,
+        "warning": logging.warning,
+        "info": logging.info,
+        "error": logging.error,
+    }[type]
+
+    loger(f"{datetime.now().strftime(r'%d/%m/%Y %H:%M:%S')} {message} \n")
