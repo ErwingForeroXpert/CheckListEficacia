@@ -250,6 +250,7 @@ if __name__ == "__main__":
 
         # descargar archivo ingresos
         _result = downloadIncomeFile(chrome_driver)
+        income_file = None
         if _result:
             income_file = getMostRecentFile(
                 files_route, lambda x: [v for v in x if "xls" in v.lower()])
@@ -265,6 +266,7 @@ if __name__ == "__main__":
 
         # descargar archivo saldos
         _result = downloadBalanceFile(chrome_driver)
+        balance_file = None
         if _result:
             balance_file = getMostRecentFile(
                 files_route, lambda x: [v for v in x if "xls" in v.lower()])
@@ -278,9 +280,17 @@ if __name__ == "__main__":
         initiatives_file = fr"{path_init}{path_end}"
 
         # ejecutar macro eliminar iniciativas completas
-        runMacro('Módulo1.EliminarIniciativasCompletas')
+        runMacro('modulo.EliminarIniciativasCompletas')
         # ejecutar macro para actualizar iniciativas
-        runMacro('Módulo1.ActualizarIniciativas', [initiatives_file])
+        runMacro('modulo.ActualizarIniciativas', [initiatives_file])
+
+        #actualizar los ingresos
+        if income_file is not None:
+            runMacro('modulo.ActualizarIngresos',[income_file])
+        
+        #actualizar los saldos (Inventario)
+        if balance_file is not None:
+            runMacro('modulo.ActualizarInventarios',[balance_file])
 
         pymsgbox.alert("\n Proceso Terminado, ya puede cerrar la ventana \n")
         print("\n Proceso Terminado, ya puede cerrar la ventana \n")
