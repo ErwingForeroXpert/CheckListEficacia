@@ -271,7 +271,7 @@ if __name__ == "__main__":
 
         chrome_driver.close()
         
-        
+
         path_init = '\\'.join(initiatives_file.split('\\')[:-1])
         # necesario para las formulas de excel
         path_end = '\\' + "[" + initiatives_file.split('\\')[-1] + "]"
@@ -282,6 +282,7 @@ if __name__ == "__main__":
         # ejecutar macro para actualizar iniciativas
         runMacro('Módulo1.ActualizarIniciativas', [initiatives_file])
 
+        pymsgbox.alert("\n Proceso Terminado, ya puede cerrar la ventana \n")
         print("\n Proceso Terminado, ya puede cerrar la ventana \n")
 
     except Exception as e:
