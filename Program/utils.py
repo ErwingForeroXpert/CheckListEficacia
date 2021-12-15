@@ -1,13 +1,13 @@
-import datetime
-from logging import warning
+from datetime import datetime
+from logging import exception, warning
 import logging
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 import time
 import os
 import glob
+import re
 
 def waitElement(driver, element, by=By.ID, exist=False):
     return WebDriverWait(driver, 30).until(
@@ -65,7 +65,7 @@ def clickAlert(driver):
         WebDriverWait(driver, 5).until (EC.alert_is_present())
         alert = driver.switch_to.alert
         alert.accept()
-    except TimeoutException:
+    except Exception as e:
         insertInLog("alert does not Exist in page", "info")
 
 def insertInLog(message, type="debug"):
@@ -78,3 +78,34 @@ def insertInLog(message, type="debug"):
     }[type]
 
     loger(f"{datetime.now().strftime(r'%d/%m/%Y %H:%M:%S')} {message} \n")
+    print(f"{datetime.now().strftime(r'%d/%m/%Y %H:%M:%S')} {message} \n")
+
+def ifErrorFalse(cb, *args):
+    try:
+        return cb(*args)
+    except Exception as e:
+        return False
+
+def isEmpty(value):
+    try:
+        return str(value).strip() == ""
+    except Exception as e:
+        return True
+
+def string2Number(value):
+    value = value if isinstance(value, str) else str(value)
+    _temp_val = re.findall(r"\d+", value) 
+    if _temp_val is not []:
+        return int(_temp_val[0])
+    else:
+        raise Exception(f"{value} has not number")
+
+def exceptionHandler(func):
+    def inner_function(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            _message = f"{func.__name__} - {e}"
+            insertInLog(_message, "error")
+            raise Exception(_message)
+    return inner_function
