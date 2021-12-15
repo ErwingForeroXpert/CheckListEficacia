@@ -20,7 +20,8 @@ def waitElementDisable(driver, element, by=By.ID):
         EC.invisibility_of_element_located((by, element))
     )
 
-def elementIsVisible(driver, element, by=By.ID):
+def elementIsVisible(driver, element, by=By.ID, wait=2):
+    time.sleep(wait)
     try:
         return driver.find_element(by, element).is_displayed()
     except Exception as e:
@@ -29,9 +30,6 @@ def elementIsVisible(driver, element, by=By.ID):
         
 
 def waitDownload(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-
     tempfiles = 0
     while tempfiles == 0:
         time.sleep(1)
@@ -42,10 +40,12 @@ def waitDownload(path):
             else:
                 tempfiles = 1
 
+def createNecesaryFolders(path, folders):
+    for folder in folders:
+        if not os.path.exists(os.path.join(path, folder)):
+            os.makedirs(os.path.join(path, folder))
 
 def deleteTemporals(path):
-    if not os.path.exists(path):
-        return
     for fname in os.listdir(path):
         os.remove(os.path.join(path, fname))
 
@@ -67,7 +67,7 @@ def clickAlert(driver):
         alert.accept()
     except TimeoutException:
         insertInLog("alert does not Exist in page", "info")
-        
+
 def insertInLog(message, type="debug"):
     logging.basicConfig(filename='checklisteficacia.log', encoding='utf-8', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
     loger = {
