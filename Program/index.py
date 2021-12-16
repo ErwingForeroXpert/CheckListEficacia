@@ -25,6 +25,7 @@ prefs = {"download.default_directory": files_route}
 chromeOptions.add_experimental_option("prefs", prefs)
 chromeOptions.add_argument("start-maximized")
 
+
 @exceptionHandler
 def search(driver, text):
     """Search in Eficacia platform
@@ -42,6 +43,7 @@ def search(driver, text):
         "//div[@id='submitSearch']/input[@type='image']")
     search_btn_element.click()
 
+
 @exceptionHandler
 def login(driver):
     user_element = driver.find_element_by_xpath("//input[@id='username']")
@@ -50,6 +52,7 @@ def login(driver):
     pass_element = driver.find_element_by_xpath("//input[@id='password']")
     pass_element.send_keys(config["PASSWORD"])
     pass_element.send_keys(Keys.ENTER)
+
 
 @exceptionHandler
 def runMacro(nameMacro, _args=None):
@@ -66,7 +69,8 @@ def runMacro(nameMacro, _args=None):
         raise Exception(
             f"en la ruta {parent_folder}, el libro no se encuentra o no se puede abrir")
 
-    result = _book.macro(nameMacro)(*_args) if _args is not None else _book.macro(nameMacro)()
+    result = _book.macro(nameMacro)(
+        *_args) if _args is not None else _book.macro(nameMacro)()
 
     _book.save()
 
@@ -76,6 +80,7 @@ def runMacro(nameMacro, _args=None):
         _book.close()
 
     return result
+
 
 @exceptionHandler
 def returnHomeFrame(driver, switch_default=False):
@@ -87,15 +92,18 @@ def returnHomeFrame(driver, switch_default=False):
         By.XPATH)
     driver.switch_to.frame("mainFrame")
 
+
 @exceptionHandler
 def click_option(_select, option, precision="same"):
     options_type_document = Select(_select).options
     for _op in options_type_document:
-        validation = _op.text.lower() == option.lower() if precision == "same" else option.lower() in _op.text.lower()
+        validation = _op.text.lower() == option.lower(
+        ) if precision == "same" else option.lower() in _op.text.lower()
         if validation:
             _op.click()
             return True
     return False
+
 
 @exceptionHandler
 def validateErrorMessage(element, extra_info=""):
@@ -104,6 +112,7 @@ def validateErrorMessage(element, extra_info=""):
         return True
     else:
         return False
+
 
 @exceptionHandler
 def downloadIncomeFile(driver):
@@ -132,7 +141,7 @@ def downloadIncomeFile(driver):
 
     returnHomeFrame(driver, True)
     driver.switch_to.frame("central")
-    waitElementDisable(                                                                                                                                                     
+    waitElementDisable(
         driver, "//input[contains(@type,'submit') and contains(@value,'Continuar')]", By.XPATH)
 
     if elementIsVisible(driver, "//a/small[contains(text(),'Descargar Archivo')]", By.XPATH, wait=5):
@@ -141,7 +150,8 @@ def downloadIncomeFile(driver):
         waitDownload(files_route)
         return True
     elif elementIsVisible(driver, "//div[contains(@class,'exhibir_tabla')]", By.XPATH):
-        driver.find_element(By.XPATH, "//a[contains(@href,'tipo_exportacion=XLS')]").click()
+        driver.find_element(
+            By.XPATH, "//a[contains(@href,'tipo_exportacion=XLS')]").click()
         waitDownload(files_route)
         return True
     else:
@@ -155,6 +165,7 @@ def downloadIncomeFile(driver):
                 errors_route, f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"))
         pymsgbox.alert(_message)
         return False
+
 
 @exceptionHandler
 def downloadBalanceFile(driver):
@@ -182,7 +193,8 @@ def downloadBalanceFile(driver):
         waitDownload(files_route)
         return True
     elif elementIsVisible(driver, "//div[contains(@class,'exhibir_tabla')]", By.XPATH):
-        driver.find_element(By.XPATH, "//a[contains(@href,'tipo_exportacion=XLS')]").click()
+        driver.find_element(
+            By.XPATH, "//a[contains(@href,'tipo_exportacion=XLS')]").click()
         waitDownload(files_route)
         return True
     else:
@@ -196,6 +208,7 @@ def downloadBalanceFile(driver):
                 errors_route, f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"))
         pymsgbox.alert(_message)
         return False
+
 
 @exceptionHandler
 def validateACTS(driver, registers):
@@ -214,57 +227,64 @@ def validateACTS(driver, registers):
             else:
                 temp_act = validateValueACT(driver, register)
         else:
-            temp_act = list(register)     
+            temp_act = list(register)
 
-        temp_registers.append(tuple(temp_act[:9])) #first 9 registers [0,1,..] index
-           
+        # first 9 registers [0,1,..] index
+        temp_registers.append(tuple(temp_act[:9]))
+
     return tuple(temp_registers)
 
 
 @exceptionHandler
 def validateValueACT(driver, act, by="table"):
     temp_act = list(act)
-    #seelct option selector
+    # seelct option selector
     returnHomeFrame(driver, True)
     driver.switch_to.frame("central")
     if not click_option(driver.find_element(By.XPATH,
-                "//select[contains(@name,'punto')]"), temp_act[1].split(" ")[0], "similar"):
-        insertInLog(f"Error al buscar la opcion {temp_act[1].split(' ')[0]} act {temp_act[2]}", "error")
+                                            "//select[contains(@name,'punto')]"), temp_act[1].split(" ")[0], "similar"):
+        insertInLog(
+            f"Error al buscar la opcion {temp_act[1].split(' ')[0]} act {temp_act[2]}", "error")
         return temp_act
-    
+
     _today = datetime.now()
-    _date_before = _today - timedelta(days=25) #margin of days for search act information
+    # margin of days for search act information
+    _date_before = _today - timedelta(days=25)
     driver.find_element_by_name("articulo").clear()
-    driver.find_element_by_name("articulo").send_keys(temp_act[2]) #insert act 
+    driver.find_element_by_name("articulo").send_keys(
+        temp_act[2])  # insert act
     driver.find_element_by_name("fecha_final").clear()
     driver.find_element_by_name(
-        "fecha_final").send_keys(_today.strftime('%m/%d/%Y')) #insert final date 
+        "fecha_final").send_keys(_today.strftime('%m/%d/%Y'))  # insert final date
     driver.find_element_by_name("fecha_inicial").clear()
-    driver.find_element_by_name("fecha_inicial").send_keys( #insert init date 
+    driver.find_element_by_name("fecha_inicial").send_keys(  # insert init date
         _date_before.strftime('%m/%d/%Y'))
     driver.find_element(
         By.XPATH, "//input[contains(@type,'submit') and contains(@value,'Continuar')]").click()
 
-    #wait for the button "Continuar" to disappear
+    # wait for the button "Continuar" to disappear
     returnHomeFrame(driver, True)
     driver.switch_to.frame("central")
-    waitElementDisable(                                                                                                                                                     
+    waitElementDisable(
         driver, "//input[contains(@type,'submit') and contains(@value,'Continuar')]", By.XPATH)
     time.sleep(2)
 
-    #validate if the table of records exist and is searched specifically by table
+    # validate if the table of records exist and is searched specifically by table
     if elementIsVisible(driver, "//table[contains(@class,'tablaexhibir')]", By.XPATH, wait=2) and by == "table":
-        len_table = len(driver.find_elements(By.XPATH, "//table[contains(@class,'tablaexhibir')]/tbody/tr"))
+        len_table = len(driver.find_elements(
+            By.XPATH, "//table[contains(@class,'tablaexhibir')]/tbody/tr"))
         if len_table > 2:
-            total_finded = driver.find_element(By.XPATH, f"//table[contains(@class,'tablaexhibir')]/tbody/tr[{len_table}]/th[16]").text
+            total_finded = driver.find_element(
+                By.XPATH, f"//table[contains(@class,'tablaexhibir')]/tbody/tr[{len_table}]/th[16]").text
 
-            temp_act[5] = max(string2Number(temp_act[5]), string2Number(total_finded)) if ifErrorFalse(string2Number, total_finded) else string2Number(total_finded)
+            temp_act[5] = max(string2Number(temp_act[5]), string2Number(total_finded)) if ifErrorFalse(
+                string2Number, total_finded) else string2Number(total_finded)
 
     elif elementIsVisible(driver, "//a[contains(@href,'tipo_exportacion=XLS')]", By.XPATH) or elementIsVisible(driver, "//a/small[contains(text(),'Descargar Archivo')]", By.XPATH):
-        #if first selector isn't found the following is used
+        # if first selector isn't found the following is used
         if elementIsVisible(driver, "//a[contains(@href,'tipo_exportacion=XLS')]", By.XPATH):
             driver.find_element(
-            By.XPATH, "//a[contains(@href,'tipo_exportacion=XLS')]").click()
+                By.XPATH, "//a[contains(@href,'tipo_exportacion=XLS')]").click()
         else:
             driver.find_element(
                 By.XPATH, "//a/small[contains(text(),'Descargar Archivo XLS')]").click()
@@ -273,19 +293,22 @@ def validateValueACT(driver, act, by="table"):
         temp_file_act = getMostRecentFile(
             files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
-        #run macro for validate the info in file downloaded
-        total_finded = runMacro("modulo.ValidarACT", [temp_file_act, temp_act[8]]) #(value, message)
+        # run macro for validate the info in file downloaded
+        total_finded = runMacro("modulo.ValidarACT", [
+                                temp_file_act, temp_act[8]])  # (value, message)
 
-        if isinstance(total_finded, (list, tuple))  and (not isEmpty(total_finded[0]) and isEmpty(total_finded[1])):
-            temp_act[5] = max(string2Number(temp_act[5]), string2Number(total_finded[0])) if ifErrorFalse(string2Number, total_finded[0]) else string2Number(total_finded[0])  
+        if isinstance(total_finded, (list, tuple)) and (not isEmpty(total_finded[0]) and isEmpty(total_finded[1])):
+            temp_act[5] = max(string2Number(temp_act[5]), string2Number(total_finded[0])) if ifErrorFalse(
+                string2Number, total_finded[0]) else string2Number(total_finded[0])
         elif isinstance(total_finded, (list, tuple)) and not isEmpty(total_finded[1]):
             insertInLog(f"{temp_act[1]}-{temp_act[2]}", "error")
         else:
-            insertInLog(f"no se pudo validar el act {temp_act[1]}-{temp_act[2]} del archivo {os.path.basename(temp_file_act)}", "error")
+            insertInLog(
+                f"no se pudo validar el act {temp_act[1]}-{temp_act[2]} del archivo {os.path.basename(temp_file_act)}", "error")
 
         os.remove(temp_file_act)
     else:
-        #if all of the above doesn't work
+        # if all of the above doesn't work
         _message = f"al buscar los registros del act: {temp_act[1]} - {temp_act[2]}, fecha {_date_before.strftime('%m/%d/%Y')} - {_today.strftime('%m/%d/%Y')}"
         if elementIsVisible(driver, "//div[contains(@class,'mensaje')]", By.XPATH):
             validateErrorMessage(driver.find_element(
@@ -295,9 +318,10 @@ def validateValueACT(driver, act, by="table"):
                 errors_route, f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"))
         # pymsgbox.alert(_message)
 
-    #return to kardex
+    # return to kardex
     if elementIsVisible(driver, "//input[contains(@type,'submit') and contains(@value,'Volver')]", By.XPATH):
-        driver.find_element(By.XPATH, "//input[contains(@type,'submit') and contains(@value,'Volver')]").click()
+        driver.find_element(
+            By.XPATH, "//input[contains(@type,'submit') and contains(@value,'Volver')]").click()
     else:
         # search kardex
         returnHomeFrame(driver, True)
@@ -311,11 +335,13 @@ def validateValueACT(driver, act, by="table"):
 
     return temp_act
 
+
 if __name__ == "__main__":
     chrome_driver = webdriver.Chrome(
         executable_path=ChromeDriverManager().install(), options=chromeOptions)
     try:
-        createNecesaryFolders(fr"{os.path.dirname(os.path.realpath(__file__))}", ["files", "_errors"])
+        createNecesaryFolders(fr"{os.path.dirname(os.path.realpath(__file__))}", [
+                              "files", "_errors"])
         deleteTemporals(files_route)
         chrome_driver.get(config["URL_EFICACIA"])
 
@@ -338,7 +364,7 @@ if __name__ == "__main__":
             "//div[@id='Layer1']",
             By.XPATH)
 
-        # Look for the technical sheet 
+        # Look for the technical sheet
         waitElement(
             chrome_driver,
             "//frame[@name='izquierda']",
@@ -359,7 +385,7 @@ if __name__ == "__main__":
         chrome_driver.find_element_by_xpath(
             "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
 
-        # search the articles 
+        # search the articles
         waitElement(chrome_driver,
                     "//table/b[contains='*Son Campos Obligatorios']")
         chrome_driver.find_element_by_xpath(
@@ -434,17 +460,17 @@ if __name__ == "__main__":
         # actualizar los balances (Ingresos y saldo)
         runMacro('modulo.ActualizarBalances')
 
-        #Obtener acts
+        # Obtener acts
         acts = runMacro('modulo.ObtenerACTs')
         # Buscar kardex
         returnHomeFrame(chrome_driver, True)
         chrome_driver.switch_to.frame("izquierda")
         search(chrome_driver, "Kardex")
 
-        #obtener asignaciones actualizadas
+        # obtener asignaciones actualizadas
         temp_asigments = validateACTS(chrome_driver, acts)
-        
-        #insertar las asignaciones actualizadas
+
+        # insertar las asignaciones actualizadas
         runMacro("modulo.insertarACTS", [temp_asigments])
 
         pymsgbox.alert("\n Proceso Terminado, ya puede cerrar la ventana \n")
