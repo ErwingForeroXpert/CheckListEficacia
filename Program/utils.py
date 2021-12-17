@@ -1,5 +1,6 @@
 from datetime import datetime
-from logging import exception, warning
+from logging import warning
+import xlwings as xw
 import logging
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

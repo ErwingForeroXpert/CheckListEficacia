@@ -8,12 +8,12 @@ python-dotenv = "*"
 webdriver-manager = "*"
 selenium = "*"
 xlwings = "*"
+pyinstaller = "*"
 
 [scripts]
 build = "pyinstaller --clean --onefile  index.py"
 
 [dev-packages]
-pyinstaller = "*"
 
 [requires]
 python_version = "3.9"
