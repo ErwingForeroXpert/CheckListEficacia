@@ -438,7 +438,6 @@ if __name__ == "__main__":
             balance_file = getMostRecentFile(
                 files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
-        chrome_driver.close()
 
         path_init = '\\'.join(initiatives_file.split('\\')[:-1])
         # necesario para las formulas de excel
@@ -470,7 +469,8 @@ if __name__ == "__main__":
 
         # obtener asignaciones actualizadas
         temp_asigments = validateACTS(chrome_driver, acts)
-
+        chrome_driver.close()
+        
         # insertar las asignaciones actualizadas
         runMacro("modulo.insertarACTS", [temp_asigments])
 

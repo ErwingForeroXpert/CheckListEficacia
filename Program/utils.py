@@ -218,6 +218,11 @@ def string2Number(value):
         raise Exception(f"{value} has not number")
 
 def exceptionHandler(func):
+    """Manage Exceptions
+
+    Args:
+        func (function): callback function
+    """
     def inner_function(*args, **kwargs):
         try:
             return func(*args, **kwargs)
@@ -228,6 +233,14 @@ def exceptionHandler(func):
     return inner_function
 
 def isIterable(posibleList):
+    """Validate if element is iterable
+
+    Args:
+        posibleList (Any): posible iterable element
+
+    Returns:
+        bool: if element is iterable
+    """
     try:
         if isinstance(posibleList, (tuple, list)):
             if hasattr(posibleList, "__iter__"):
