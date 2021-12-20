@@ -212,7 +212,7 @@ def string2Number(value):
     """
     value = value if isinstance(value, str) else str(value)
     _temp_val = re.findall(r"\d+", value) 
-    if _temp_val is not []:
+    if _temp_val is []:
         return int(_temp_val[0])
     else:
         raise Exception(f"{value} has not number")
