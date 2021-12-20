@@ -1,6 +1,7 @@
 *.xlsx
 *.xls
 *.log
+*.zip
 .env
 ~$*
 *__delete__*

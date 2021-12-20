@@ -16,6 +16,7 @@ import pymsgbox
 
 config = dotenv_values("./Program/.env")
 files_route = fr"{os.path.dirname(os.path.realpath(__file__))}\files"
+documents_route = fr"{os.path.dirname(os.path.realpath(__file__))}\documents"
 errors_route = fr"{os.path.dirname(os.path.realpath(__file__))}\_errors"
 
 # insertar la direccion de descarga
@@ -57,7 +58,7 @@ def login(driver):
 def runMacro(nameMacro, _args=None):
     # ejecutar macro
     result = None
-    parent_folder = os.path.join(os.getcwd(), "Files")
+    parent_folder = documents_route
     _book = None
     for fname in os.listdir(parent_folder):
         if "xlsm" in fname and "~" not in fname:
