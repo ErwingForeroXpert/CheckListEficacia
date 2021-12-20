@@ -69,10 +69,9 @@ def waitBookDisable(mybook):
     Args:
         mybook (String): path of the excel book
     """
-    with xw.App() as app:
-        while len(app.books) != 0:
+    while isIterable(xw.books):
             time.sleep(1)
-            for book in app.books:
+            for book in xw.books:
                 if book.fullname == mybook:
                     book.close()
             
@@ -227,3 +226,14 @@ def exceptionHandler(func):
             insertInLog(_message, "error")
             raise Exception(_message)
     return inner_function
+
+def isIterable(posibleList):
+    try:
+        if isinstance(posibleList, (tuple, list)):
+            if hasattr(posibleList, "__iter__"):
+                _ = posibleList[0]
+                return True
+
+        return False
+    except Exception as e:
+        return False
