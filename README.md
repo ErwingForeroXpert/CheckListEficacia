@@ -40,9 +40,9 @@
 
 ### Prerequisitos
 
-* [https://www.python.org/downloads/] (Python) <@3.8>
+* [Python](https://www.python.org/downloads/) <@3.8>
 * Microsoft Excel (Recomendable 2019)
-* [https://code.visualstudio.com/] VS code (opcional)
+* [VS code](https://code.visualstudio.com/) (opcional)
 
 ### Instalación
 
@@ -50,7 +50,7 @@ _Para la instalación del proyecto solo es necesario:_
 
 1. Clonar el repositorio
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/ErwingForeroXpert/CheckListEficacia.git
    ```
 2. Instalar `pipenv`, omitir si ya esta instalado
    ```sh
