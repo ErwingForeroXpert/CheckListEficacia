@@ -84,16 +84,16 @@ Project Link: [https://github.com/ErwingForeroXpert/CheckListEficacia](https://g
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/ErwingForeroXpert/CheckListEficacia
 [contributors-url]: https://github.com/ErwingForeroXpert/CheckListEficacia/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/ErwingForeroXpert/CheckListEficacia
 [forks-url]: https://github.com/ErwingForeroXpert/CheckListEficacia/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/ErwingForeroXpert/CheckListEficacia
 [stars-url]: https://github.com/ErwingForeroXpert/CheckListEficacia/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/ErwingForeroXpert/CheckListEficacia
 [issues-url]: https://github.com/ErwingForeroXpert/CheckListEficacia/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/ErwingForeroXpert/CheckListEficacia
 [license-url]: https://github.com/ErwingForeroXpert/CheckListEficacia/blob/develop/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/-Linkedin-blue
 [linkedin-url]: https://www.linkedin.com/in/erwing-forero-castro-586781133
 [product-screenshot]: images/screenshot.png
