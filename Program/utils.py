@@ -73,7 +73,7 @@ def waitBookDisable(mybook):
             time.sleep(1)
             for book in xw.books:
                 if book.fullname == mybook:
-                    book.close()
+                    book.app.quit()
             
 def waitDownload(path):
     """wait that elements in state downloading disappear
