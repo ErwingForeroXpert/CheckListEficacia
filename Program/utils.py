@@ -242,10 +242,9 @@ def isIterable(posibleList):
         bool: if element is iterable
     """
     try:
-        if isinstance(posibleList, (tuple, list)):
-            if hasattr(posibleList, "__iter__"):
-                _ = posibleList[0]
-                return True
+        if isinstance(posibleList, (tuple, list)) or hasattr(posibleList, "__iter__"):
+            _ = posibleList[0]
+            return True
 
         return False
     except Exception as e:
