@@ -279,7 +279,7 @@ def validateValueACT(driver, act, by="table"):
                 By.XPATH, f"//table[contains(@class,'tablaexhibir')]/tbody/tr[{len_table}]/th[16]").text
 
             temp_act[5] = max(string2Number(temp_act[5]), string2Number(total_finded)) if ifErrorFalse(
-                string2Number, total_finded) else string2Number(total_finded)
+                string2Number, total_finded) else (string2Number(temp_act[5]) if ifErrorFalse(string2Number, temp_act[5]) else 0)
 
     elif elementIsVisible(driver, "//a[contains(@href,'tipo_exportacion=XLS')]", By.XPATH) or elementIsVisible(driver, "//a/small[contains(text(),'Descargar Archivo')]", By.XPATH):
         # if first selector isn't found the following is used
@@ -300,7 +300,7 @@ def validateValueACT(driver, act, by="table"):
 
         if isinstance(total_finded, (list, tuple)) and (not isEmpty(total_finded[0]) and isEmpty(total_finded[1])):
             temp_act[5] = max(string2Number(temp_act[5]), string2Number(total_finded[0])) if ifErrorFalse(
-                string2Number, total_finded[0]) else string2Number(total_finded[0])
+                string2Number, total_finded[0]) else (string2Number(temp_act[5]) if ifErrorFalse(string2Number, temp_act[5]) else 0)
         elif isinstance(total_finded, (list, tuple)) and not isEmpty(total_finded[1]):
             insertInLog(f"{temp_act[1]}-{temp_act[2]}", "error")
         else:
