@@ -368,99 +368,99 @@ if __name__ == "__main__":
             By.XPATH)
 
         # Look for the technical sheet
-        # waitElement(
-        #     chrome_driver,
-        #     "//frame[@name='izquierda']",
-        #     By.XPATH)
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "ficha")
+        waitElement(
+            chrome_driver,
+            "//frame[@name='izquierda']",
+            By.XPATH)
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "ficha")
 
-        # returnHomeFrame(chrome_driver, True)
+        returnHomeFrame(chrome_driver, True)
 
-        # # look for the frame central
-        # waitElement(
-        #     chrome_driver,
-        #     "//frame[@name='central']",
-        #     By.XPATH)
-        # chrome_driver.switch_to.frame("central")
+        # look for the frame central
+        waitElement(
+            chrome_driver,
+            "//frame[@name='central']",
+            By.XPATH)
+        chrome_driver.switch_to.frame("central")
 
-        # waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
-        # chrome_driver.find_element_by_xpath(
-        #     "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
+        waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
+        chrome_driver.find_element_by_xpath(
+            "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
 
-        # # search the articles
-        # waitElement(chrome_driver,
-        #             "//table/b[contains='*Son Campos Obligatorios']")
-        # chrome_driver.find_element_by_xpath(
-        #     "//table//input[@type='submit']").click()
+        # search the articles
+        waitElement(chrome_driver,
+                    "//table/b[contains='*Son Campos Obligatorios']")
+        chrome_driver.find_element_by_xpath(
+            "//table//input[@type='submit']").click()
 
-        # # download the file
-        # waitElementDisable(
-        #     chrome_driver, "//table//input[@type='submit']", By.XPATH)
-        # chrome_driver.find_element_by_xpath(
-        #     "//a/small[contains(text(),'Archivo XLS')]").click()
-        # time.sleep(1)
-        # waitDownload(files_route)
-        # time.sleep(1)
+        # download the file
+        waitElementDisable(
+            chrome_driver, "//table//input[@type='submit']", By.XPATH)
+        chrome_driver.find_element_by_xpath(
+            "//a/small[contains(text(),'Archivo XLS')]").click()
+        time.sleep(1)
+        waitDownload(files_route)
+        time.sleep(1)
 
-        # initiatives_file = getMostRecentFile(
-        #     files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        initiatives_file = getMostRecentFile(
+            files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
-        # # look for document details
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "Detalles Documentos")
+        # look for document details
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "Detalles Documentos")
 
-        # # look for the central frame
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("central")
+        # look for the central frame
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("central")
 
-        # # download income file
-        # _result = downloadIncomeFile(chrome_driver)
-        # time.sleep(1)
-        # income_file = None
-        # if _result:
-        #     income_file = getMostRecentFile(
-        #         files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        # download income file
+        _result = downloadIncomeFile(chrome_driver)
+        time.sleep(1)
+        income_file = None
+        if _result:
+            income_file = getMostRecentFile(
+                files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
-        # # look for the balance file
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "detalles saldos")
+        # look for the balance file
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "detalles saldos")
 
-        # # look for the central frame
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("central")
+        # look for the central frame
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("central")
 
-        # # download balance file
-        # _result = downloadBalanceFile(chrome_driver)
-        # time.sleep(1)
-        # balance_file = None
-        # if _result:
-        #     balance_file = getMostRecentFile(
-        #         files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        # download balance file
+        _result = downloadBalanceFile(chrome_driver)
+        time.sleep(1)
+        balance_file = None
+        if _result:
+            balance_file = getMostRecentFile(
+                files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
 
-        # path_init = '\\'.join(initiatives_file.split('\\')[:-1])
-        # # necesario para las formulas de excel
-        # path_end = '\\' + "[" + initiatives_file.split('\\')[-1] + "]"
-        # initiatives_file = fr"{path_init}{path_end}"
+        path_init = '\\'.join(initiatives_file.split('\\')[:-1])
+        # necesario para las formulas de excel
+        path_end = '\\' + "[" + initiatives_file.split('\\')[-1] + "]"
+        initiatives_file = fr"{path_init}{path_end}"
 
-        # # Execute delete complete initiatives
-        # runMacro('modulo.EliminarIniciativasCompletas')
-        # # ejecutar macro para actualizar iniciativas
-        # runMacro('modulo.ActualizarIniciativas', [initiatives_file])
+        # Execute delete complete initiatives
+        runMacro('modulo.EliminarIniciativasCompletas')
+        # ejecutar macro para actualizar iniciativas
+        runMacro('modulo.ActualizarIniciativas', [initiatives_file])
 
-        # # update incomes
-        # if income_file is not None:
-        #     runMacro('modulo.ActualizarIngresos', [income_file])
+        # update incomes
+        if income_file is not None:
+            runMacro('modulo.ActualizarIngresos', [income_file])
 
-        # # actualizar los saldos (Inventario)
-        # if balance_file is not None:
-        #     runMacro('modulo.ActualizarInventarios', [balance_file])
+        # actualizar los saldos (Inventario)
+        if balance_file is not None:
+            runMacro('modulo.ActualizarInventarios', [balance_file])
 
-        # # # actualizar los balances (Ingresos y saldo)
-        # runMacro('modulo.ActualizarBalances')
+        # # actualizar los balances (Ingresos y saldo)
+        runMacro('modulo.ActualizarBalances')
 
         # Obtener acts
         acts = runMacro('modulo.ObtenerACTs')
