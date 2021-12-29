@@ -447,7 +447,7 @@ if __name__ == "__main__":
         initiatives_file = fr"{path_init}{path_end}"
 
         # Execute delete complete initiatives
-        runMacro('modulo.EliminarIniciativasCompletas')
+        # runMacro('modulo.EliminarIniciativasCompletas')
         # ejecutar macro para actualizar iniciativas
         runMacro('modulo.ActualizarIniciativas', [initiatives_file])
 
