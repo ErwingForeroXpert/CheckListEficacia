@@ -488,7 +488,7 @@ if __name__ == "__main__":
         temp_asigments = validateACTS(chrome_driver, acts)
 
         #close actual sesion
-        signOff()
+        signOff(chrome_driver)
         chrome_driver.close()
 
         # insertar las asignaciones actualizadas
