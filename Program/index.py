@@ -59,12 +59,9 @@ def login(driver):
 def signOff(driver):
     returnHomeFrame(chrome_driver, True)
     chrome_driver.switch_to.frame("izquierda")
-    user_element = driver.find_element_by_xpath("//input[@id='username']")
-    user_element.send_keys(config["USER"])
-
-    pass_element = driver.find_element_by_xpath("//input[@id='password']")
-    pass_element.send_keys(config["PASSWORD"])
-    pass_element.send_keys(Keys.ENTER)
+    driver.find_element(
+        By.XPATH, "//img[contains(@alt,'Salir / Pagina de Inicio LAB')]").click()
+    waitElementDisable(driver,"//img[contains(@alt,'Salir / Pagina de Inicio LAB')]", By.XPATH)
 
 
 #@exceptionHandler
@@ -223,11 +220,17 @@ def downloadBalanceFile(driver):
         pymsgbox.alert(_message)
         return False
 
+def validation(prev, actual):
+    for pp in prev
+        same = False
+        for aa in actual:
+            if pp[0] ==  aa[0] and pp[2] == aa[2] and pp[7] == aa[7] and pp[8] == aa[8]:
+                if pp[5]-aa
 
 #@exceptionHandler
 def validateACTS(driver, registers):
     temp_registers = []
-
+    prev_registers = 
     returnHomeFrame(driver, True)
     driver.switch_to.frame("central")
     waitElement(driver, "//table[@class='tablaexhibir']", By.XPATH)
@@ -482,6 +485,9 @@ if __name__ == "__main__":
 
         # obtener asignaciones actualizadas
         temp_asigments = validateACTS(chrome_driver, acts)
+
+        #close actual sesion
+        signOff()
         chrome_driver.close()
 
         # insertar las asignaciones actualizadas
