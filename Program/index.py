@@ -221,16 +221,16 @@ def downloadBalanceFile(driver):
         return False
 
 def validation(prev, actual):
-    for pp in prev
-        same = False
-        for aa in actual:
+    for i, pp in enumerate(prev):
+        for l, aa in enumerate(actual):
             if pp[0] ==  aa[0] and pp[2] == aa[2] and pp[7] == aa[7] and pp[8] == aa[8]:
-                if pp[5]-aa
+                if aa[5] - pp[5] < 0 or (aa[5] != pp[5] and "act" not in str(pp[2]).lower()):
+                    print(f"{aa[5] - pp[5]}, {str(pp[2]).lower()}, {i}-{l}")
 
 #@exceptionHandler
 def validateACTS(driver, registers):
     temp_registers = []
-    prev_registers = 
+    prev_registers = registers
     returnHomeFrame(driver, True)
     driver.switch_to.frame("central")
     waitElement(driver, "//table[@class='tablaexhibir']", By.XPATH)
@@ -248,7 +248,8 @@ def validateACTS(driver, registers):
 
         # first 9 registers [0,1,..] index
         temp_registers.append(tuple(temp_act[:9]))
-
+    
+    validation(prev_registers, temp_registers)
     return tuple(temp_registers)
 
 
@@ -381,100 +382,100 @@ if __name__ == "__main__":
             "//div[@id='Layer1']",
             By.XPATH)
 
-        # # Look for the technical sheet
-        # waitElement(
-        #     chrome_driver,
-        #     "//frame[@name='izquierda']",
-        #     By.XPATH)
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "ficha")
+        # Look for the technical sheet
+        waitElement(
+            chrome_driver,
+            "//frame[@name='izquierda']",
+            By.XPATH)
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "ficha")
 
-        # returnHomeFrame(chrome_driver, True)
+        returnHomeFrame(chrome_driver, True)
 
-        # # look for the frame central
-        # waitElement(
-        #     chrome_driver,
-        #     "//frame[@name='central']",
-        #     By.XPATH)
-        # chrome_driver.switch_to.frame("central")
+        # look for the frame central
+        waitElement(
+            chrome_driver,
+            "//frame[@name='central']",
+            By.XPATH)
+        chrome_driver.switch_to.frame("central")
 
-        # waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
-        # chrome_driver.find_element_by_xpath(
-        #     "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
+        waitElement(chrome_driver, "//table[@class='tablaexhibir']", By.XPATH)
+        chrome_driver.find_element_by_xpath(
+            "//table[@class='tablaexhibir TablaContainerTable']/tbody/tr/td[@class='td2'][@align='left']/font").click()
 
-        # # search the articles
-        # waitElement(chrome_driver,
-        #             "//table/b[contains='*Son Campos Obligatorios']")
-        # chrome_driver.find_element_by_xpath(
-        #     "//table//input[@type='submit']").click()
+        # search the articles
+        waitElement(chrome_driver,
+                    "//table/b[contains='*Son Campos Obligatorios']")
+        chrome_driver.find_element_by_xpath(
+            "//table//input[@type='submit']").click()
 
-        # # download the file
-        # waitElementDisable(
-        #     chrome_driver, "//table//input[@type='submit']", By.XPATH)
-        # chrome_driver.find_element_by_xpath(
-        #     "//a/small[contains(text(),'Archivo XLS')]").click()
-        # time.sleep(1)
-        # waitDownload(files_route)
-        # time.sleep(1)
+        # download the file
+        waitElementDisable(
+            chrome_driver, "//table//input[@type='submit']", By.XPATH)
+        chrome_driver.find_element_by_xpath(
+            "//a/small[contains(text(),'Archivo XLS')]").click()
+        time.sleep(1)
+        waitDownload(files_route)
+        time.sleep(1)
 
-        # initiatives_file = getMostRecentFile(
-        #     files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        initiatives_file = getMostRecentFile(
+            files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
-        # # look for document details
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "Detalles Documentos")
+        # look for document details
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "Detalles Documentos")
 
-        # # look for the central frame
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("central")
+        # look for the central frame
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("central")
 
-        # # download income file
-        # _result = downloadIncomeFile(chrome_driver)
-        # time.sleep(1)
-        # income_file = None
-        # if _result:
-        #     income_file = getMostRecentFile(
-        #         files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        # download income file
+        _result = downloadIncomeFile(chrome_driver)
+        time.sleep(1)
+        income_file = None
+        if _result:
+            income_file = getMostRecentFile(
+                files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
-        # # look for the balance file
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("izquierda")
-        # search(chrome_driver, "detalles saldos")
+        # look for the balance file
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("izquierda")
+        search(chrome_driver, "detalles saldos")
 
-        # # look for the central frame
-        # returnHomeFrame(chrome_driver, True)
-        # chrome_driver.switch_to.frame("central")
+        # look for the central frame
+        returnHomeFrame(chrome_driver, True)
+        chrome_driver.switch_to.frame("central")
 
-        # # download balance file
-        # _result = downloadBalanceFile(chrome_driver)
-        # time.sleep(1)
-        # balance_file = None
-        # if _result:
-        #     balance_file = getMostRecentFile(
-        #         files_route, lambda x: [v for v in x if "xls" in v.lower()])
+        # download balance file
+        _result = downloadBalanceFile(chrome_driver)
+        time.sleep(1)
+        balance_file = None
+        if _result:
+            balance_file = getMostRecentFile(
+                files_route, lambda x: [v for v in x if "xls" in v.lower()])
 
 
-        # path_init = '\\'.join(initiatives_file.split('\\')[:-1])
-        # # necesario para las formulas de excel
-        # path_end = '\\' + "[" + initiatives_file.split('\\')[-1] + "]"
-        # initiatives_file = fr"{path_init}{path_end}"
+        path_init = '\\'.join(initiatives_file.split('\\')[:-1])
+        # necesario para las formulas de excel
+        path_end = '\\' + "[" + initiatives_file.split('\\')[-1] + "]"
+        initiatives_file = fr"{path_init}{path_end}"
 
-        # # Execute delete complete initiatives
-        # # runMacro('modulo.EliminarIniciativasCompletas')
-        # # ejecutar macro para actualizar iniciativas
-        # runMacro('modulo.ActualizarIniciativas', [initiatives_file])
+        # Execute delete complete initiatives
+        runMacro('modulo.EliminarIniciativasCompletas')
+        # ejecutar macro para actualizar iniciativas
+        runMacro('modulo.ActualizarIniciativas', [initiatives_file])
 
-        # # update incomes
-        # if income_file is not None:
-        #     runMacro('modulo.ActualizarIngresos', [income_file])
+        # update incomes
+        if income_file is not None:
+            runMacro('modulo.ActualizarIngresos', [income_file])
 
-        # # actualizar los saldos (Inventario)
-        # if balance_file is not None:
-        #     runMacro('modulo.ActualizarInventarios', [balance_file])
+        # actualizar los saldos (Inventario)
+        if balance_file is not None:
+            runMacro('modulo.ActualizarInventarios', [balance_file])
 
-        # # # actualizar los balances (Ingresos y saldo)
-        # runMacro('modulo.ActualizarBalances')
+        # # actualizar los balances (Ingresos y saldo)
+        runMacro('modulo.ActualizarBalances')
 
         # Obtener acts
         acts = runMacro('modulo.ObtenerACTs')
