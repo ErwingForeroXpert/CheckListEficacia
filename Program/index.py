@@ -13,11 +13,11 @@ import time
 import os
 import pymsgbox
 
-
-config = dotenv_values(fr"{os.path.dirname(os.path.realpath(__file__))}\.env")
-files_route = fr"{os.path.dirname(os.path.realpath(__file__))}\files"
-documents_route = fr"{os.path.dirname(os.path.realpath(__file__))}\documents"
-errors_route = fr"{os.path.dirname(os.path.realpath(__file__))}\_errors"
+config = dotenv_values(".env")
+actual_route = os.path.dirname(os.path.realpath(__file__)) if ENVIROMENT == "DEV" else os.getcwd()
+files_route = fr"{actual_route}\files"
+documents_route = fr"{actual_route}\documents"
+errors_route = fr"{actual_route}\_errors"
 
 # insertar la direccion de descarga
 chromeOptions = webdriver.ChromeOptions()
@@ -358,10 +358,10 @@ if __name__ == "__main__":
     chrome_driver = webdriver.Chrome(
         executable_path=ChromeDriverManager().install(), options=chromeOptions)
     try:
-        createNecesaryFolders(fr"{os.path.dirname(os.path.realpath(__file__))}", [
+        createNecesaryFolders(fr"{actual_route}", [
                               "files", "_errors"])
+        print(files_route)
         deleteTemporals(files_route)
-        print(config)
         chrome_driver.get(config["URL_EFICACIA"])
 
         # wait login
