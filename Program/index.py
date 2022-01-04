@@ -14,7 +14,7 @@ import os
 import pymsgbox
 
 
-config = dotenv_values("./Program/.env")
+config = dotenv_values(fr"{os.path.dirname(os.path.realpath(__file__))}\.env")
 files_route = fr"{os.path.dirname(os.path.realpath(__file__))}\files"
 documents_route = fr"{os.path.dirname(os.path.realpath(__file__))}\documents"
 errors_route = fr"{os.path.dirname(os.path.realpath(__file__))}\_errors"
@@ -28,7 +28,7 @@ chromeOptions.add_argument("start-maximized")
 if ENVIROMENT == "PROD":
     chromeOptions.add_argument("'--disable-logging'")
 
-#@exceptionHandler
+@exceptionHandler
 def search(driver, text):
     """Search in Eficacia platform
 
@@ -46,7 +46,7 @@ def search(driver, text):
     search_btn_element.click()
 
 
-#@exceptionHandler
+@exceptionHandler
 def login(driver):
     user_element = driver.find_element_by_xpath("//input[@id='username']")
     user_element.send_keys(config["USER"])
@@ -55,7 +55,7 @@ def login(driver):
     pass_element.send_keys(config["PASSWORD"])
     pass_element.send_keys(Keys.ENTER)
 
-#@exceptionHandler
+@exceptionHandler
 def signOff(driver):
     returnHomeFrame(chrome_driver, True)
     chrome_driver.switch_to.frame("izquierda")
@@ -64,7 +64,7 @@ def signOff(driver):
     waitElementDisable(driver,"//img[contains(@alt,'Salir / Pagina de Inicio LAB')]", By.XPATH)
 
 
-#@exceptionHandler
+@exceptionHandler
 def runMacro(nameMacro, _args=None):
     # ejecutar macro
     result = None
@@ -93,7 +93,7 @@ def runMacro(nameMacro, _args=None):
     return result
 
 
-#@exceptionHandler
+@exceptionHandler
 def returnHomeFrame(driver, switch_default=False):
     if switch_default:
         driver.switch_to.default_content()
@@ -104,7 +104,7 @@ def returnHomeFrame(driver, switch_default=False):
     driver.switch_to.frame("mainFrame")
 
 
-#@exceptionHandler
+@exceptionHandler
 def click_option(_select, option, precision="same"):
     options_type_document = Select(_select).options
     for _op in options_type_document:
@@ -116,7 +116,7 @@ def click_option(_select, option, precision="same"):
     return False
 
 
-#@exceptionHandler
+@exceptionHandler
 def validateErrorMessage(element, extra_info=""):
     if foundInErrorMessages(element.text):
         insertInLog(f"Error encontrado {element.text} {extra_info}")
@@ -125,7 +125,7 @@ def validateErrorMessage(element, extra_info=""):
         return False
 
 
-#@exceptionHandler
+@exceptionHandler
 def downloadIncomeFile(driver):
     waitElement(driver, "//table[@class='tablaexhibir']", By.XPATH)
     driver.find_element_by_xpath(
@@ -178,7 +178,7 @@ def downloadIncomeFile(driver):
         return False
 
 
-#@exceptionHandler
+@exceptionHandler
 def downloadBalanceFile(driver):
     waitElement(driver, "//table[@class='tablaexhibir']", By.XPATH)
     driver.find_element_by_xpath(
@@ -227,7 +227,7 @@ def validation(prev, actual):
                 if aa[5] - pp[5] < 0 or (aa[5] != pp[5] and "act" not in str(pp[2]).lower()):
                     print(f"{aa[5] - pp[5]}, {str(pp[2]).lower()}, {i}-{l}")
 
-#@exceptionHandler
+@exceptionHandler
 def validateACTS(driver, registers):
     temp_registers = []
     prev_registers = registers
@@ -253,7 +253,7 @@ def validateACTS(driver, registers):
     return tuple(temp_registers)
 
 
-#@exceptionHandler
+@exceptionHandler
 def validateValueACT(driver, act, by="table"):
     temp_act = list(act)
     # seelct option selector
@@ -361,6 +361,7 @@ if __name__ == "__main__":
         createNecesaryFolders(fr"{os.path.dirname(os.path.realpath(__file__))}", [
                               "files", "_errors"])
         deleteTemporals(files_route)
+        print(config)
         chrome_driver.get(config["URL_EFICACIA"])
 
         # wait login
