@@ -30,6 +30,7 @@
       <ul>
         <li><a href="#prerequisitos">Prerequisitos</a></li>
         <li><a href="#instalacion">Instalacion</a></li>
+        <li><a href="#generar ejecutable">Ejecutable</a></li>
       </ul>
     </li>
     <li><a href="#contacto">Contacto</a></li>
@@ -67,6 +68,27 @@ _Para la instalación del proyecto solo es necesario:_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### Generar Ejecutable
+
+_Para Generar el archivo ejecutable es necesario lo siguiente:_
+
+1. Verificar que el entorno virtual esta activo
+   ```sh
+   pipenv --venv
+   ```
+   Deberia mostar la ruta del entorno virtual activo.
+   
+2. Ejecutar el siguiente comando:
+   ```sh
+   pipenv run build
+   ```
+3. Crear el archivo ".env" en el directorio `./dist/`, el cual debe contener lo siguiente:
+   ```sh
+     URL_EFICACIA="URL"
+     USER="USUARIO"
+     PASSWORD="CONTRASEÑA"
+    ```
+   
 
 ## Licencia
 
