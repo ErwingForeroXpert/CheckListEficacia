@@ -80,8 +80,7 @@ def runMacro(nameMacro, _args=None):
         raise Exception(
             f"en la ruta {parent_folder}, el libro no se encuentra o no se puede abrir")
 
-    result = _book.macro(nameMacro)(
-        *_args) if _args is not None else _book.macro(nameMacro)()
+    result = _book.macro(nameMacro)(*_args) if _args is not None else _book.macro(nameMacro)()
 
     _book.save()
 
