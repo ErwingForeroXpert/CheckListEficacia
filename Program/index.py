@@ -96,7 +96,7 @@ def runMacro(nameMacro, _args=None):
 def returnHomeFrame(driver, switch_default=False):
     if switch_default:
         driver.switch_to.default_content()
-        
+
     waitElement(
         driver,
         "//frame[@name='mainFrame']",
@@ -365,6 +365,7 @@ if __name__ == "__main__":
         chrome_driver.get(config["URL_EFICACIA"])
 
         # wait login
+        waitElement(chrome_driver, "//frame[contains(@src, 'cedis.eficacia.com.co')]",  By.XPATH)
         returnHomeFrame(chrome_driver)
 
         waitElement(chrome_driver, "//input[@id='username']", By.XPATH, True)
