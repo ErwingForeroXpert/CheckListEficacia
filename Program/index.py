@@ -365,10 +365,10 @@ if __name__ == "__main__":
         chrome_driver.get(config["URL_EFICACIA"])
 
         # wait login
-        waitElement(chrome_driver, "//frame[contains(@src, 'cedis.eficacia.com.co')]",  By.XPATH)
+        waitElement(chrome_driver, "//frame[contains(@src, 'cedis.eficacia.com.co')]",  By.XPATH, True)        
         returnHomeFrame(chrome_driver)
 
-        waitElement(chrome_driver, "//input[@id='username']", By.XPATH, True)
+        waitElement(chrome_driver, "//input[@id='username']", By.XPATH)
         login(chrome_driver)
 
         if elementIsVisible(chrome_driver, "//div[@class='error login_error' and contains(text(), 'YA TIENE SESION ACTIVA')]", By.XPATH):
