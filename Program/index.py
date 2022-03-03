@@ -96,6 +96,7 @@ def runMacro(nameMacro, _args=None):
 def returnHomeFrame(driver, switch_default=False):
     if switch_default:
         driver.switch_to.default_content()
+        
     waitElement(
         driver,
         "//frame[@name='mainFrame']",
