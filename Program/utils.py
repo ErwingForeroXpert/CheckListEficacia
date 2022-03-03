@@ -70,11 +70,15 @@ def waitBookDisable(mybook):
         mybook (String): path of the excel book
     """
     while isIterable(xw.books):
-        time.sleep(1)
-        for book in xw.books:
-            if book.fullname == mybook:
-                book.save()
-        book.app.quit()
+        try:
+            for book in xw.books:
+                if book.fullname == mybook:
+                    book.save()
+                book.app.quit()
+            time.sleep(1)
+        except Exception:
+            print("Error al cerrar archivos \n recuerde no tener libros de excel abiertos en el proceso")
+            continue
             
 def waitDownload(path):
     """wait that elements in state downloading disappear
