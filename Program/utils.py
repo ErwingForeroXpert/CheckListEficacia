@@ -1,5 +1,6 @@
 from datetime import datetime
 from logging import warning
+from telnetlib import theNULL
 import xlwings as xw
 import logging
 from selenium.webdriver.common.by import By
@@ -86,15 +87,18 @@ def waitDownload(path):
     Args:
         path (String): Folder of downloads
     """
-    tempfiles = 0
-    while tempfiles == 0:
+    tempfiles = True
+    init_state = os.listdir(path)
+
+    while tempfiles:
         time.sleep(1)
+        n_temp = 0
         for fname in os.listdir(path):
             if "crdownload" in fname or "tmp" in fname:
-                tempfiles = 0  
-                break
-            else:
-                tempfiles = 1
+                n_temp += 1
+        
+        tempfiles =  os.listdir(path) == init_state or n_temp > 0
+
 
 def createNecesaryFolders(path, folders):
     """Create folders
